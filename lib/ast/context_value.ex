@@ -1,6 +1,15 @@
 defmodule Sanskrit.Ast.ContextValue do
   use Sanskrit.Parser
 
+  @moduledoc """
+  A word prepended with an hashtag
+
+  ## Example
+
+      iex> Combine.parse("#lorenzo", Sanskrit.Ast.ContextValue.parser())
+      [%Sanskrit.Ast.ContextValue{value: "#lorenzo"}]
+  """
+
   defstruct value: nil
 
   def new(value) do

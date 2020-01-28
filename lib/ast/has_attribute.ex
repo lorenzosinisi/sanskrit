@@ -2,6 +2,25 @@ defmodule Sanskrit.Ast.HasAttribute do
   use Sanskrit.Parser
   alias Sanskrit.Ast.ContextValue
 
+  @moduledoc """
+  An attribute value assignment. For example "Plant's name is equal monstera"
+
+  ## Examples
+
+      iex> Combine.parse("Plant's name is equal monstera", Sanskrit.Ast.HasAttribute.parser())
+      [%Sanskrit.Ast.HasAttribute{operator: :==, attribute: "name", type: "Plant", value: "monstera"}]
+
+
+      iex> Combine.parse("Plant's name is not Pine", Sanskrit.Ast.HasAttribute.parser())
+      [%Sanskrit.Ast.HasAttribute{operator: :!=, attribute: "name", type: "Plant", value: "Pine"}]
+
+      iex> Combine.parse("Plant's age is greater 1", Sanskrit.Ast.HasAttribute.parser())
+      [%Sanskrit.Ast.HasAttribute{operator: :>=, attribute: "age", type: "Plant", value: "1"}]
+
+      iex> Combine.parse("Plant's age is lesser 1", Sanskrit.Ast.HasAttribute.parser())
+      [%Sanskrit.Ast.HasAttribute{operator: :<=, attribute: "age", type: "Plant", value: "1"}]
+  """
+
   defstruct type: nil, attribute: nil, operator: :==, value: nil
 
   def new(type, attr, operator, value) do

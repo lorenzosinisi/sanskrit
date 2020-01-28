@@ -1,6 +1,7 @@
 defmodule Sanskrit.Ast.NewLine do
   use Sanskrit.Parser
   defstruct newline: nil
+  @moduledoc "A parse for the standard `\n`"
 
   def new(_), do: %__MODULE__{}
 

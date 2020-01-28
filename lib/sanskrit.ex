@@ -5,6 +5,9 @@ defmodule Sanskrit do
 
   @doc """
   Parse a binary
+
+  Check the other moduledocs for more examples
+
   ## Examples
 
       iex> Sanskrit.parse("Lorenzo's surname is equal sinisi")

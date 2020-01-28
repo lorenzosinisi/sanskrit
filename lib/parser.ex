@@ -1,4 +1,5 @@
 defmodule Sanskrit.Parser do
+  @moduledoc false
   defmodule Behaviour do
     @callback parser(term) :: list(term) | {:error, String.t()}
     @callback parser() :: list(term) | {:error, String.t()}
