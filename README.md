@@ -1,6 +1,6 @@
 # Sanskrit
 
-**TODO: Add description**
+**A language to parse and integrate Retex**
 
 ## Installation
 
