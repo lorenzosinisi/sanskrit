@@ -24,7 +24,7 @@ by adding `sanskrit` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:sanskrit, "~> 0.1.0"}
+    {:sanskrit, git: "https://github.com/lorenzosinisi/sanskrit"}
   ]
 end
 ```
