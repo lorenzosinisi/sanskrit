@@ -8,17 +8,6 @@ defmodule Sanskrit do
 
   Check the other moduledocs for more examples
 
-  ## Examples
-
-      iex> Sanskrit.parse("Lorenzo's surname is equal sinisi")
-      {:ok, [
-        %Sanskrit.Ast.HasAttribute{
-          attribute: "surname",
-          operator: :==,
-          type: "Lorenzo",
-          value: "sinisi"
-        }
-       ]}
 
   """
 
