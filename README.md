@@ -29,6 +29,27 @@
    """)
 ```
 
+**Concepts:**
+
+We have the following data types: 
+
+- string
+- boolean
+- number
+- float number
+- context value
+- variable
+- array
+
+And the following statements:
+
+- working memory element
+- has attribute
+- is a entity
+- is not an entity
+- has no attribute
+- filter
+- function
 
 ## Installation
 
