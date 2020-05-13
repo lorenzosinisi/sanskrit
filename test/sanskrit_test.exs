@@ -115,7 +115,7 @@ defmodule SanskritTest do
   test "can parse all statements" do
     assert {:ok,
             [
-              {:wme, "Dog", "isa", "$x"},
+              {:isa, "$name", "Person"},
               {:wme, "Lorenzo", "surname", "sinisi"},
               {:wme, "Lorenzo", "age", 28},
               {:wme, "Lorenzo", "country", "Germany"},
@@ -127,7 +127,7 @@ defmodule SanskritTest do
               {:unexistant_attribute, "Dog", "age"}
             ]} =
              parse("""
-             Dog isa $x
+             $name isa Person
              Lorenzo's surname is "sinisi"
              Lorenzo's age is 28
              Lorenzo's country is "Germany"

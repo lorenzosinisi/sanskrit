@@ -5,10 +5,6 @@ defmodule Sanskrit do
 
   @doc """
   Parse a binary
-
-  Check the other moduledocs for more examples
-
-
   """
 
   def parse(str) when is_binary(str) do

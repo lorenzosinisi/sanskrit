@@ -4,7 +4,7 @@
 
 ```
  Dog isa $x
- Lorenzo's surname is "sinisi"
+ Lorenzo's dog is $dog 
  Lorenzo's age is 28
  Lorenzo's country is "Germany"
  Lorenzo's language is equal "italian"
