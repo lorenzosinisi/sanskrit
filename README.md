@@ -33,13 +33,14 @@
 
 We have the following data types: 
 
-- string
-- boolean
-- number
-- float number
-- context value
-- variable
-- array
+- **String:** represent text and are sentences or words between double quotes `"`
+- **Boolean:** `true` and `false` represent yes and no
+- **Number:** `1`, `2` etc
+- **Decimal numbers:** `1.0`, `2.322` etc
+- **Context value:** `#sessionid`, `#tag` that represents external values that can be replaced at runtime
+- **Variable:** `$this_is_a_variable`, `$this` which is a wildcart at which we assign a value if exists
+- **Array:** `["Hello", 1, 1.0]`, which rapresents a list of values, strings or numbers
+
 
 And the following statements:
 
@@ -50,6 +51,9 @@ And the following statements:
 - has no attribute
 - filter
 - function
+
+
+
 
 ## Installation
 
