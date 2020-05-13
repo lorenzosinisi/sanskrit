@@ -27,12 +27,12 @@ defmodule Sanskrit.Parser do
   end
 
   def literal_string(previous \\ nil) do
-    string_with_scape_quote = ~r/(?:\\"|[^\\"])*/
+    string_regex = ~r/(?:\\"|[^\\"])*/
 
     previous
     |> between(
       char("\""),
-      label(word_of(string_with_scape_quote), "string"),
+      label(word_of(string_regex), "string"),
       char("\"")
     )
     |> map(fn str -> String.replace(str, "\\\"", "\"") end)
