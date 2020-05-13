@@ -23,6 +23,22 @@ defmodule SanskritTest do
              Sanskrit.parse(text)
   end
 
+  test "can parse attribute literals" do
+    text = """
+    Vomit's composition is in [\"Water\", \"Food+Water\", \"Just-Bile\"]\r\nDog's problem is equal \"Gastrointestinal\"\r\nAnagrafic's age is equal $age\r\nAnagrafic's age is equal 1\r\nAnagrafic's name is equal $name\r\n
+    """
+
+    assert {:ok,
+            [
+              {:has_attribute, "Vomit", "composition", :in, ["Water", "Food+Water", "Just-Bile"]},
+              {:has_attribute, "Dog", "problem", :==, "Gastrointestinal"},
+              {:has_attribute, "Anagrafic", "age", :==, "$age"},
+              {:has_attribute, "Anagrafic", "age", :==, 1},
+              {:has_attribute, "Anagrafic", "name", :==, "$name"}
+            ]} ==
+             Sanskrit.parse(text)
+  end
+
   test "can parse is_not" do
     text = """
     $name is_not Lorenzo

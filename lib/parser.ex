@@ -210,6 +210,9 @@ defmodule Sanskrit.Parser do
           [type, attr, "equal", value] ->
             {:has_attribute, type, attr, :==, value}
 
+          [type, attr, "equal", _, value] ->
+            {:has_attribute, type, attr, :==, value}
+
           [type, attr, "in", value] ->
             {:has_attribute, type, attr, :in, value}
 
