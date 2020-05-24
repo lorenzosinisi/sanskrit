@@ -16,13 +16,15 @@ defmodule Sanskrit.Parser do
   defp generic_parser(previous \\ nil) do
     previous
     |> choice([
+      ignore(spaces()),
       func(),
       filter_parser(),
       has_attribute(),
       has_no_attribute(),
       wme(),
       isa(),
-      ignore(newline())
+      ignore(newline()),
+      ignore(spaces())
     ])
   end
 
