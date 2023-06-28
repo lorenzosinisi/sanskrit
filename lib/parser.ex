@@ -76,7 +76,12 @@ defmodule Sanskrit.Parser do
           char("("),
           many(
             choice([
-              variable(),
+              choice([
+                variable(),
+                float(),
+                integer(),
+                literal_string()
+              ]),
               ignore(spaces()),
               ignore(char(","))
             ])

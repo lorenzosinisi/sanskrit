@@ -85,11 +85,41 @@ defmodule SanskritTest do
     assert {:ok, []} = Sanskrit.parse("\n")
   end
 
-  test "can parse functions" do
-    assert {:ok, [{:fun, "$name", "surname_of", ["$sinisi"]}]} =
-             parse("""
-             let $name = surname_of($sinisi)
-             """)
+  describe "parse functions" do
+    test "variable args" do
+      assert {:ok, [{:fun, "$name", "surname_of", ["$sinisi"]}]} =
+               parse("""
+               let $name = surname_of($sinisi)
+               """)
+    end
+
+    test "integer literal args" do
+      assert {:ok, [{:fun, "$result", "div", [10, 5]}]} =
+               parse("""
+               let $result = div(10, 5)
+               """)
+    end
+
+    test "float literal args" do
+      assert {:ok, [{:fun, "$result", "div", [10.1, 5.3]}]} =
+               parse("""
+               let $result = div(10.1, 5.3)
+               """)
+    end
+
+    test "string literal args" do
+      assert {:ok, [{:fun, "$result", "myfunc", ["yo", "dude"]}]} =
+               parse("""
+               let $result = myfunc("yo", "dude")
+               """)
+    end
+
+    test "mixed literal args" do
+      assert {:ok, [{:fun, "$result", "myfunc", ["yo", 12, 42.66, "$var"]}]} =
+               parse("""
+               let $result = myfunc("yo", 12, 42.66, $var)
+               """)
+    end
   end
 
   test "can parse Wme" do
