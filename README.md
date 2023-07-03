@@ -13,7 +13,7 @@
     {:fun, "$surname", "surname_of", ["$sinisi"]},
     {:filter, "$surname", :==, "ciao"},
     {:not, "$x", "Duck"},
-    {:unexistant_attribute, "Dog", "age"}
+    {:not_existing_attribute, "Dog", "age"}
   ]} =
    parse("""
    $name isa Person

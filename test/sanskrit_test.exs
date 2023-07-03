@@ -60,7 +60,7 @@ defmodule SanskritTest do
     Person's name is unknown
     """
 
-    assert {:ok, [{:unexistant_attribute, "Person", "name"}]} ==
+    assert {:ok, [{:not_existing_attribute, "Person", "name"}]} ==
              Sanskrit.parse(text)
   end
 
@@ -170,7 +170,7 @@ defmodule SanskritTest do
               {:fun, "$surname", "surname_of", ["$sinisi"]},
               {:filter, "$surname", :==, "ciao"},
               {:not, "$x", "Duck"},
-              {:unexistant_attribute, "Dog", "age"}
+              {:not_existing_attribute, "Dog", "age"}
             ]} =
              parse("""
              $name isa Person
