@@ -162,7 +162,7 @@ defmodule Sanskrit.Parser do
         |> skip(spaces())
       ],
       fn [type, attr, "unknown"] ->
-        {:unexistant_attribute, type, attr}
+        {:not_existing_attribute, type, attr}
       end
     )
   end
@@ -233,7 +233,7 @@ defmodule Sanskrit.Parser do
             {:has_attribute, type, attr, :>, value}
 
           [type, attr, "unknonw", _value] ->
-            {:unexistant_attribute, type, attr}
+            {:not_existing_attribute, type, attr}
 
           [type, attr, value] ->
             {:has_attribute, type, attr, :==, value}
