@@ -64,6 +64,15 @@ defmodule SanskritTest do
              Sanskrit.parse(text)
   end
 
+  test "can parse a negative float" do
+    text = """
+    Person's age is -10.9
+    """
+
+    assert {:ok, [{:wme, "Person", "age", -10.9}]} ==
+             Sanskrit.parse(text)
+  end
+
   test "can no existing attribues" do
     text = """
     Person's name is unknown
@@ -106,6 +115,13 @@ defmodule SanskritTest do
       assert {:ok, [{:fun, "$result", "div", [10, 5]}]} =
                parse("""
                let $result = div(10, 5)
+               """)
+    end
+
+    test "float literal args and negative floats" do
+      assert {:ok, [{:fun, "$result", "div", [10.0, -5.6]}]} =
+               parse("""
+               let $result = div(10.0, -5.6)
                """)
     end
 
@@ -173,6 +189,7 @@ defmodule SanskritTest do
               {:isa, "$name", "Person"},
               {:wme, "Person", "surname", "sinisi"},
               {:wme, "Person", "age", 28},
+              {:wme, "Person", "age_float", 28.9999},
               {:wme, "Person", "country", "Germany"},
               {:has_attribute, "Person", "language", :==, "italian"},
               {:has_attribute, "Germany", "language", :==, "german"},
@@ -185,6 +202,7 @@ defmodule SanskritTest do
              $name isa Person
              Person's surname is "sinisi"
              Person's age is 28
+             Person's age_float is 28.9999
              Person's country is "Germany"
              Person's language is equal "italian"
              Germany's language is equal "german"

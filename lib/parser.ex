@@ -345,7 +345,10 @@ defmodule Sanskrit.Parser do
     |> pipe(
       [
         ignore(char("-")),
-        integer()
+        choice([
+          float(),
+          integer()
+        ])
       ],
       fn [int] -> -int end
     )
