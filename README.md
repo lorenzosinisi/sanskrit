@@ -1,57 +1,97 @@
-# Sanskrit
+# Sanskrit DSL
 
-**A language to parse and integrate Retex**
+## Introduction
+This DSL (Domain-Specific Language) provides a set of statements to define and manipulate data related to people, their attributes, and some filtering conditions. The DSL allows users to express relationships, properties, and constraints in a structured and readable format.
 
-```elixir
-  [
-    {:isa, "$name", "Person"},
-    {:wme, "Lorenzo", "surname", "sinisi"},
-    {:wme, "Lorenzo", "age", 28},
-    {:wme, "Lorenzo", "country", "Germany"},
-    {:has_attribute, "Lorenzo", "language", :==, "italian"},
-    {:has_attribute, "Germany", "language", :==, "german"},
-    {:fun, "$surname", "surname_of", ["$sinisi"]},
-    {:filter, "$surname", :==, "ciao"},
-    {:not, "$x", "Duck"},
-    {:not_existing_attribute, "Dog", "age"}
-  ]} =
-   parse("""
-   $name isa Person
-   Lorenzo's surname is "sinisi"
-   Lorenzo's age is 28
-   Lorenzo's country is "Germany"
-   Lorenzo's language is equal "italian"
-   Germany's language is equal "german"
-   let $surname = surname_of($sinisi)
-   when $surname equal "ciao"
-   $x is_not Duck
-   Dog's age is unknown
-   """)
+## DSL Statements
+
+### `:isa`
+The `:isa` statement defines the type of an entity. It associates a given `$name` with the type "Person". For example, `Lorenzo` is associated with the type "Person".
+
+### `:wme`
+The `:wme` statement defines a property of an entity. It specifies that the entity mentioned in the first argument (e.g., `Lorenzo`) has a certain attribute with a specific value. For example, `Lorenzo` has a surname "sinisi", an age of 28, and is from Germany.
+
+### `:has_attribute`
+The `:has_attribute` statement checks if a given entity has a certain attribute with a specific value. It compares the attribute value of an entity to the provided value using the specified comparison operator. For example, it checks if `Lorenzo` has a language attribute equal to "italian" and if `Germany` has a language attribute equal to "german".
+
+### `:fun`
+The `:fun` statement defines a function. It assigns the result of a function call to a variable. In this case, it assigns the result of the function `surname_of($sinisi)` to the variable `$surname`. The function `surname_of` takes the argument `$sinisi`.
+
+### `:filter`
+The `:filter` statement is used for filtering entities based on certain conditions. It checks if the value of the variable `$surname` is equal to "ciao". If the condition is true, the entity associated with the variable `$surname` passes the filter.
+
+### `:not`
+The `:not` statement negates a condition. It checks if the entity mentioned in the first argument (e.g., `$x`) is not equal to "Duck". If the condition is true, the entity passes the negated condition.
+
+### `:not_existing_attribute`
+The `:not_existing_attribute` statement checks if an entity does not have a specific attribute. It verifies if the entity mentioned in the first argument (e.g., "Dog") does not have the attribute "age".
+
+## Example Usage
+
+The provided DSL code is a representation of the statements explained above. It uses the DSL syntax to express various relationships and constraints related to entities.
+
+```ruby
+$name isa Person
+Lorenzo's surname is "sinisi"
+Lorenzo's age is 28
+Lorenzo's country is "Germany"
+Lorenzo's language is equal "italian"
+Germany's language is equal "german"
+let $surname = surname_of($sinisi)
+when $surname equal "ciao"
+$x is_not Duck
+Dog's age is unknown
 ```
 
-**Concepts:**
+In this example, the DSL code describes a person named Lorenzo with a surname "sinisi" and an age of 28. Lorenzo is from Germany and speaks Italian. The DSL code assigns the result of the `surname_of($sinisi)` function to the variable `$surname`. It then checks if `$surname` is equal to "ciao". Additionally, it ensures that `$x` is not equal to "Duck". Finally, it checks if the attribute "age" does not exist for the entity "Dog".
 
-We have the following data types: 
+Please note that this DSL code is an example, and the actual implementation or usage may vary depending on the specific DSL interpreter or framework used.
 
-- **String:** represent text and are sentences or words between double quotes `"`
-- **Boolean:** `true` and `false` represent yes and no
-- **Number:** `1`, `2` etc
-- **Decimal numbers:** `1.0`, `2.322` etc
-- **Context value:** `#sessionid`, `#tag` that represents external values that can be replaced at runtime
-- **Variable:** `$this_is_a_variable`, `$this` which is a wildcart at which we assign a value if exists
-- **Array:** `["Hello", 1, 1.0]`, which rapresents a list of values, strings or numbers
+# Sanskrit DSL
 
+## Introduction
 
-And the following statements:
+Sanskrit is a domain-specific language designed to parse and integrate Retex. It provides a set of statements and data types to define and manipulate data in a structured and readable format.
 
-- working memory element
-- has attribute
-- is a entity
-- is not an entity
-- has no attribute
-- filter
-- function
+## Concepts
 
+### Data Types
+
+Sanskrit supports the following data types:
+
+- **String**: Represents text and is enclosed in double quotes (`"`).
+- **Boolean**: Represents true or false.
+- **Number**: Represents whole numbers.
+- **Decimal Numbers**: Represents numbers with decimal points.
+- **Context Value**: Represents external values that can be replaced at runtime, such as session IDs or tags. They are prefixed with a hash symbol (`#`).
+- **Variable**: Represents a variable name and is prefixed with a dollar sign (`$`). Variables can be assigned values.
+- **Array**: Represents a list of values, which can be strings or numbers, enclosed in square brackets (`[]`).
+
+### Statements
+
+Sanskrit supports the following statements:
+
+- **Working Memory Element**: Defines a property of an entity in the working memory. It associates an entity with a specific attribute and value.
+- **Has Attribute**: Checks if an entity has a specific attribute with a certain value. It compares the attribute value of an entity to the provided value using the specified comparison operator.
+- **Is an Entity**: Specifies the type of an entity.
+- **Is Not an Entity**: Negates the condition that an entity should be of a specific type.
+- **Has No Attribute**: Checks if an entity does not have a specific attribute.
+- **Filter**: Filters entities based on certain conditions.
+- **Function**: Defines a function and assigns the result to a variable.
+
+## Installation
+
+To use Sanskrit, you can add it as a dependency in your `mix.exs` file:
+
+```elixir
+def deps do
+  [
+    {:sanskrit, git: "https://github.com/lorenzosinisi/sanskrit"}
+  ]
+end
+```
+
+You can also generate documentation for Sanskrit using ExDoc and publish it on HexDocs for reference. The documentation can be found at [https://hexdocs.pm/sanskrit](https://hexdocs.pm/sanskrit).
 
 
 
