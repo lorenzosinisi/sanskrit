@@ -6,13 +6,13 @@ This DSL (Domain-Specific Language) provides a set of statements to define and m
 ## DSL Statements
 
 ### `:isa`
-The `:isa` statement defines the type of an entity. It associates a given `$name` with the type "Person". For example, `Lorenzo` is associated with the type "Person".
+The `:isa` statement defines the type of an entity. It associates a given `$name` with the type "Person". For example, `Person` is associated with the type "Person".
 
 ### `:wme`
-The `:wme` statement defines a property of an entity. It specifies that the entity mentioned in the first argument (e.g., `Lorenzo`) has a certain attribute with a specific value. For example, `Lorenzo` has a surname "sinisi", an age of 28, and is from Germany.
+The `:wme` statement defines a property of an entity. It specifies that the entity mentioned in the first argument (e.g., `Person`) has a certain attribute with a specific value. For example, `Person` has a surname "sinisi", an age of 28, and is from Germany.
 
 ### `:has_attribute`
-The `:has_attribute` statement checks if a given entity has a certain attribute with a specific value. It compares the attribute value of an entity to the provided value using the specified comparison operator. For example, it checks if `Lorenzo` has a language attribute equal to "italian" and if `Germany` has a language attribute equal to "german".
+The `:has_attribute` statement checks if a given entity has a certain attribute with a specific value. It compares the attribute value of an entity to the provided value using the specified comparison operator. For example, it checks if `Person` has a language attribute equal to "italian" and if `Germany` has a language attribute equal to "german".
 
 ### `:fun`
 The `:fun` statement defines a function. It assigns the result of a function call to a variable. In this case, it assigns the result of the function `surname_of($sinisi)` to the variable `$surname`. The function `surname_of` takes the argument `$sinisi`.
@@ -32,10 +32,10 @@ The provided DSL code is a representation of the statements explained above. It 
 
 ```ruby
 $name isa Person
-Lorenzo's surname is "sinisi"
-Lorenzo's age is 28
-Lorenzo's country is "Germany"
-Lorenzo's language is equal "italian"
+Person's surname is "sinisi"
+Person's age is 28
+Person's country is "Germany"
+Person's language is equal "italian"
 Germany's language is equal "german"
 let $surname = surname_of($sinisi)
 when $surname equal "ciao"
@@ -43,7 +43,7 @@ $x is_not Duck
 Dog's age is unknown
 ```
 
-In this example, the DSL code describes a person named Lorenzo with a surname "sinisi" and an age of 28. Lorenzo is from Germany and speaks Italian. The DSL code assigns the result of the `surname_of($sinisi)` function to the variable `$surname`. It then checks if `$surname` is equal to "ciao". Additionally, it ensures that `$x` is not equal to "Duck". Finally, it checks if the attribute "age" does not exist for the entity "Dog".
+In this example, the DSL code describes a person named Person with a surname "sinisi" and an age of 28. Person is from Germany and speaks Italian. The DSL code assigns the result of the `surname_of($sinisi)` function to the variable `$surname`. It then checks if `$surname` is equal to "ciao". Additionally, it ensures that `$x` is not equal to "Duck". Finally, it checks if the attribute "age" does not exist for the entity "Dog".
 
 Please note that this DSL code is an example, and the actual implementation or usage may vary depending on the specific DSL interpreter or framework used.
 

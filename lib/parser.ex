@@ -46,6 +46,7 @@ defmodule Sanskrit.Parser do
       char("["),
       many(
         choice([
+          negative_number(),
           float(),
           integer(),
           literal_string(),
@@ -77,6 +78,7 @@ defmodule Sanskrit.Parser do
           many(
             choice([
               choice([
+                negative_number(),
                 variable(),
                 float(),
                 integer(),
@@ -117,7 +119,7 @@ defmodule Sanskrit.Parser do
           string("lesser")
         ])
         |> skip(spaces())
-        |> choice([float(), integer(), literal_string(), array()])
+        |> choice([negative_number(), float(), integer(), literal_string(), array()])
         |> skip(spaces())
       ],
       fn args ->
@@ -202,6 +204,7 @@ defmodule Sanskrit.Parser do
         ])
         |> skip(spaces())
         |> choice([
+          negative_number(),
           float(),
           integer(),
           boolean(),
@@ -302,6 +305,7 @@ defmodule Sanskrit.Parser do
         |> skip(string("is"))
         |> skip(spaces())
         |> choice([
+          negative_number(),
           float(),
           integer(),
           boolean(),
@@ -334,6 +338,17 @@ defmodule Sanskrit.Parser do
     |> ignore(char("#"))
     |> word()
     |> map(fn word -> "##{word}" end)
+  end
+
+  def negative_number(previous \\ nil) do
+    previous
+    |> pipe(
+      [
+        ignore(char("-")),
+        integer()
+      ],
+      fn [int] -> -int end
+    )
   end
 
   defmacro __using__(_opts) do

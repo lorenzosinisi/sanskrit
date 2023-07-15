@@ -3,15 +3,15 @@ defmodule SanskritTest do
   import Sanskrit, only: [parse: 1]
 
   test "can parse HasAttribute" do
-    assert {:ok, [{:has_attribute, "Lorenzo", "surname", :==, "sinisi"}]} =
+    assert {:ok, [{:has_attribute, "Person", "surname", :==, "sinisi"}]} =
              Sanskrit.parse("""
-             Lorenzo's surname is equal "sinisi"
+             Person's surname is equal "sinisi"
              """)
   end
 
   test "the type in the attribute has to be followed by s" do
     assert {:error, "Expected end of input at line 1, column 0"} =
-             Sanskrit.parse("Lorenzo' surname is equal sinisi")
+             Sanskrit.parse("Person' surname is equal sinisi")
   end
 
   test "can parse isa" do
@@ -41,17 +41,26 @@ defmodule SanskritTest do
 
   test "can parse is_not" do
     text = """
-    $name is_not Lorenzo
+    $name is_notPerson
     """
 
-    assert {:ok, [{:not, "$name", "Lorenzo"}]} ==
+    assert {:ok, [{:not, "$name", "Person"}]} ==
              Sanskrit.parse(text)
 
     text = """
-    $name is_not "Lorenzo"
+    $name is_not "Person"
     """
 
-    assert {:ok, [{:not, "$name", "Lorenzo"}]} ==
+    assert {:ok, [{:not, "$name", "Person"}]} ==
+             Sanskrit.parse(text)
+  end
+
+  test "can parse a negative number" do
+    text = """
+    Person's age is -10
+    """
+
+    assert {:ok, [{:wme, "Person", "age", -10}]} ==
              Sanskrit.parse(text)
   end
 
@@ -123,19 +132,19 @@ defmodule SanskritTest do
   end
 
   test "can parse Wme" do
-    assert {:ok, [{:wme, "Lorenzo", "surname", "sinisi"}]} =
+    assert {:ok, [{:wme, "Person", "surname", "sinisi"}]} =
              parse("""
-             Lorenzo's surname is "sinisi"
+             Person's surname is "sinisi"
              """)
   end
 
   test "fails when a has attribute is not complete" do
     assert {:error, "Expected end of input at line 4, column 0"} =
              parse("""
-             Lorenzo's surname is "sinisi"
-             Lorenzo's age is 28
-             Lorenzo's country is "Germany"
-             Lorenzo's language is equal
+             Person's surname is "sinisi"
+             Person's age is 28
+             Person's country is "Germany"
+             Person's language is equal
              Germany's language is equal "german"
              """)
   end
@@ -143,17 +152,17 @@ defmodule SanskritTest do
   test "can parse a combination of HasAttribute, Wme and NewLines" do
     assert {:ok,
             [
-              {:wme, "Lorenzo", "surname", "sinisi"},
-              {:wme, "Lorenzo", "age", 28},
-              {:wme, "Lorenzo", "country", "Germany"},
-              {:has_attribute, "Lorenzo", "language", :==, "italian"},
+              {:wme, "Person", "surname", "sinisi"},
+              {:wme, "Person", "age", 28},
+              {:wme, "Person", "country", "Germany"},
+              {:has_attribute, "Person", "language", :==, "italian"},
               {:has_attribute, "Germany", "language", :==, "german"}
             ]} =
              parse("""
-             Lorenzo's surname is "sinisi"
-             Lorenzo's age is 28
-             Lorenzo's country is "Germany"
-             Lorenzo's language is equal "italian"
+             Person's surname is "sinisi"
+             Person's age is 28
+             Person's country is "Germany"
+             Person's language is equal "italian"
              Germany's language is equal "german"
              """)
   end
@@ -162,10 +171,10 @@ defmodule SanskritTest do
     assert {:ok,
             [
               {:isa, "$name", "Person"},
-              {:wme, "Lorenzo", "surname", "sinisi"},
-              {:wme, "Lorenzo", "age", 28},
-              {:wme, "Lorenzo", "country", "Germany"},
-              {:has_attribute, "Lorenzo", "language", :==, "italian"},
+              {:wme, "Person", "surname", "sinisi"},
+              {:wme, "Person", "age", 28},
+              {:wme, "Person", "country", "Germany"},
+              {:has_attribute, "Person", "language", :==, "italian"},
               {:has_attribute, "Germany", "language", :==, "german"},
               {:fun, "$surname", "surname_of", ["$sinisi"]},
               {:filter, "$surname", :==, "ciao"},
@@ -174,10 +183,10 @@ defmodule SanskritTest do
             ]} =
              parse("""
              $name isa Person
-             Lorenzo's surname is "sinisi"
-             Lorenzo's age is 28
-             Lorenzo's country is "Germany"
-             Lorenzo's language is equal "italian"
+             Person's surname is "sinisi"
+             Person's age is 28
+             Person's country is "Germany"
+             Person's language is equal "italian"
              Germany's language is equal "german"
              let $surname = surname_of($sinisi)
              when $surname equal "ciao"
