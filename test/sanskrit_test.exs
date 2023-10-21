@@ -188,8 +188,13 @@ defmodule SanskritTest do
             [
               {:isa, "$name", "Person"},
               {:wme, "Person", "surname", "sinisi"},
+              {:has_attribute, "Person", "surname", :!=, "sinisi"},
+              {:has_attribute, "Person", "surname", :>, "sinisi"},
+              {:has_attribute, "Person", "surname", :<, "sinisi"},
               {:wme, "Person", "age", 28},
               {:wme, "Person", "age_float", 28.9999},
+              {:wme, "Person", "range", 28..9999},
+              {:wme, "Person", "list_of_ranges", [1..10, 28..9999]},
               {:wme, "Person", "country", "Germany"},
               {:has_attribute, "Person", "language", :==, "italian"},
               {:has_attribute, "Germany", "language", :==, "german"},
@@ -201,8 +206,13 @@ defmodule SanskritTest do
              parse("""
              $name isa Person
              Person's surname is "sinisi"
+             Person's surname != "sinisi"
+             Person's surname > "sinisi"
+             Person's surname < "sinisi"
              Person's age is 28
              Person's age_float is 28.9999
+             Person's range is 28..9999
+             Person's list_of_ranges is [1..10, 28..9999]
              Person's country is "Germany"
              Person's language is equal "italian"
              Germany's language is equal "german"
@@ -210,6 +220,24 @@ defmodule SanskritTest do
              when $surname equal "ciao"
              $x is_not Duck
              Dog's age is unknown
+             """)
+  end
+
+  test "can parse comparison operators" do
+    assert {
+             :ok,
+             [
+               {:has_attribute, "Person", "surname", :==, 1},
+               {:has_attribute, "Person", "surname", :>, 1},
+               {:has_attribute, "Person", "surname", :>=, 1},
+               {:has_attribute, "Person", "surname", :<=, 1}
+             ]
+           } =
+             parse("""
+             Person's surname = 1
+             Person's surname > 1
+             Person's surname >= 1
+             Person's surname <= 1
              """)
   end
 end

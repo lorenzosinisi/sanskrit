@@ -46,6 +46,7 @@ defmodule Sanskrit.Parser do
       char("["),
       many(
         choice([
+          range(),
           negative_number(),
           float(),
           integer(),
@@ -116,7 +117,15 @@ defmodule Sanskrit.Parser do
           string("equal"),
           string("not"),
           string("greater"),
-          string("lesser")
+          string("greater_or_equal"),
+          string("lesser"),
+          string("lesser_or_equal"),
+          string("="),
+          string("<="),
+          string(">="),
+          string("!="),
+          string(">"),
+          string("<")
         ])
         |> skip(spaces())
         |> choice([negative_number(), float(), integer(), literal_string(), array()])
@@ -133,14 +142,38 @@ defmodule Sanskrit.Parser do
           [_, _, _, type, "is", value] ->
             {:filter, type, :==, value}
 
+          [_, _, _, type, "=", value] ->
+            {:filter, type, :==, value}
+
           [_, _, _, type, "not", value] ->
+            {:filter, type, :!=, value}
+
+          [_, _, _, type, "!=", value] ->
             {:filter, type, :!=, value}
 
           [_, _, _, type, "lesser", value] ->
             {:filter, type, :<, value}
 
+          [_, _, _, type, "<", value] ->
+            {:filter, type, :<, value}
+
+          [_, _, _, type, "lesser_or_equal", value] ->
+            {:filter, type, :<=, value}
+
+          [_, _, _, type, "<=", value] ->
+            {:filter, type, :<=, value}
+
           [_, _, _, type, "greater", value] ->
             {:filter, type, :>, value}
+
+          [_, _, _, type, ">", value] ->
+            {:filter, type, :>, value}
+
+          [_, _, _, type, "greater_or_equal", value] ->
+            {:filter, type, :>=, value}
+
+          [_, _, _, type, ">=", value] ->
+            {:filter, type, :>=, value}
         end
       end
     )
@@ -200,6 +233,14 @@ defmodule Sanskrit.Parser do
           string("not"),
           string("greater"),
           string("lesser"),
+          string("unknonw"),
+          string("equal"),
+          string("="),
+          string(">="),
+          string("<="),
+          string("!="),
+          string(">"),
+          string("<"),
           string("unknonw")
         ])
         |> skip(spaces())
@@ -223,8 +264,14 @@ defmodule Sanskrit.Parser do
           [type, attr, "equal", _, value] ->
             {:has_attribute, type, attr, :==, value}
 
+          [type, attr, "=", value] ->
+            {:has_attribute, type, attr, :==, value}
+
           [type, attr, "in", value] ->
             {:has_attribute, type, attr, :in, value}
+
+          [type, attr, "!=", value] ->
+            {:has_attribute, type, attr, :!=, value}
 
           [type, attr, "not", value] ->
             {:has_attribute, type, attr, :!=, value}
@@ -232,8 +279,26 @@ defmodule Sanskrit.Parser do
           [type, attr, "lesser", value] ->
             {:has_attribute, type, attr, :<, value}
 
+          [type, attr, "<", value] ->
+            {:has_attribute, type, attr, :<, value}
+
+          [type, attr, "lesser_or_equal", value] ->
+            {:has_attribute, type, attr, :<, value}
+
+          [type, attr, "<=", value] ->
+            {:has_attribute, type, attr, :<=, value}
+
           [type, attr, "greater", value] ->
             {:has_attribute, type, attr, :>, value}
+
+          [type, attr, ">", value] ->
+            {:has_attribute, type, attr, :>, value}
+
+          [type, attr, "greater_or_equal", value] ->
+            {:has_attribute, type, attr, :>=, value}
+
+          [type, attr, ">=", value] ->
+            {:has_attribute, type, attr, :>=, value}
 
           [type, attr, "unknonw", _value] ->
             {:not_existing_attribute, type, attr}
@@ -305,6 +370,7 @@ defmodule Sanskrit.Parser do
         |> skip(string("is"))
         |> skip(spaces())
         |> choice([
+          range(),
           negative_number(),
           float(),
           integer(),
@@ -331,6 +397,26 @@ defmodule Sanskrit.Parser do
     |> ignore(char("$"))
     |> word()
     |> map(fn word -> "$#{word}" end)
+  end
+
+  def range(previous \\ nil) do
+    previous
+    |> pipe(
+      [
+        choice([
+          negative_number(),
+          float(),
+          integer()
+        ]),
+        string(".."),
+        choice([
+          negative_number(),
+          float(),
+          integer()
+        ])
+      ],
+      fn [first, "..", last] -> Range.new(first, last) end
+    )
   end
 
   def context_value(previous \\ nil) do
